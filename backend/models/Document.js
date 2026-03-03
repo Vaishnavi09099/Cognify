@@ -44,11 +44,11 @@ const documentSchema = new mongoose.Schema({
     }],
     uploadDate:{
         type:Date,
-        default:Datenow
+        default:Date.now()
     },
     lastAccessed:{
          type:Date,
-        default:Datenow
+        default:Date.now()
     },
     status:{
         type:String,

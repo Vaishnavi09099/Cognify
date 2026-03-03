@@ -42,7 +42,7 @@ const quizSchema = new mongoose.Schema({
     }],
     userAnswers:[{
         questionIndex:{
-            type:NUmber,
+            type:Number,
             required:true
         },
         selectedAnswer:{

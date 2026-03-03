@@ -17,4 +17,24 @@ export const chunkText =(text,chunkSize=300,overlap=50)=>{
 
 
 }
-export default chunkText;
+
+export const findRelevantChunks =(chunks,query,maxChunks=3)=>{
+    if(!chunks || chunks.length === 0 || !query) return [];
+    const queryWords = query.toLowerCase().split(/\s+/);
+    const scoredChunks = chunks.map((chunk)=>{
+        const content = chunk.content.toLowerCase();
+        let score = 0;
+        queryWords.foreach(word=>{
+            if(content.includes(word)){
+                score++;
+            }
+
+        });
+
+        return{...chunk,score}
+
+    })
+    return scoredChunks.filter(chunk=>chunk.score>0).sort((a,b)=>b.score-a.score).slice(0,maxChunks)
+
+}
+export default {chunkText,findRelevantChunks};
