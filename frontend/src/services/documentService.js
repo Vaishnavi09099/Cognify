@@ -51,7 +51,7 @@ const getDocumentById= async(id)=>{
 
 
 
-const authService = {
+const documentService = {
     getDocuments,getDocumentById,deleteDocument,uploadDocument,
 }
 

@@ -74,7 +74,7 @@ const getChatHistory = async(documentId)=>{
 
 
 
-const authService = {
+const aiService = {
     genrateFlashcards,getChatHistory,explainConcept,updateProfile,chat,generateSummary,generateQuiz 
 }
 
