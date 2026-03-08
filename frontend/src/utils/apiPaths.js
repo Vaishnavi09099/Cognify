@@ -34,8 +34,8 @@ export const API_PATHS = {
         GET_QUIZZES_FOR_DOC:(documentId)=>`/api/quizzes/${documentId}`,
         GET_QUIZ_BY_ID:(id)=>`/api/quizzes/quiz/${documentId}`,
         SUBMIT_QUIZ:(id)=>`/api/quizzes/${id}/submit`,
-        GET_QUIZ_RESULTS:`/api/quizzes/${documentId}`,
-        DELETE_QUIZ:`/api/quizzes/${id}`,
+        GET_QUIZ_RESULTS:(documentId)=>`/api/quizzes/${documentId}`,
+        DELETE_QUIZ:(id)=>`/api/quizzes/${id}`,
 
     },
     PROGRESS:{
