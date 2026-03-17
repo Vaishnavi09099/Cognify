@@ -26,7 +26,7 @@ const protect = async (req , res , next)=>{
         })
     }
 }else{
-    return res.status(500).json({
+    return res.status(401).json({
         success:false,
         message:"Token missing!"
     })

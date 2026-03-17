@@ -9,7 +9,7 @@ const documentSchema = new mongoose.Schema({
     title:{
         type:String,
         required:[true,"Please provide a document title"],
-        trime:true
+        trim:true
     },
     fileName:{
         type:String,
@@ -53,7 +53,7 @@ const documentSchema = new mongoose.Schema({
     status:{
         type:String,
         enum:['processing','ready','failed'],
-        default:'proessing'
+        default:'processing'
 
     }
 

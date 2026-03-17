@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import documentService from '../../services/documentService'
 import { ClipLoader } from "react-spinners";
 import DocumentCard from './DocumentCard';
+import AppLayout from '../../components/layout/AppLayout';
 
 
 const DocumentListPage = () => {
@@ -21,7 +22,7 @@ const DocumentListPage = () => {
   const fetchDocuments =async ()=>{
     try{
       const data = await documentService.getDocuments();
-      setDocuments(data);
+      setDocuments(data.data || []);
     }catch(err){
       toast.error("failed to fetch documnets");
       console.log(err);
@@ -120,7 +121,7 @@ const DocumentListPage = () => {
 
     return (
       <div>
-        {documents?.map((doc)=>(
+        {documents.map((doc)=>(
           <DocumentCard document ={doc} onDelete={handleDeletRequest}
           
           
@@ -136,6 +137,8 @@ const DocumentListPage = () => {
 
   
   return (
+
+    <AppLayout>
 <div>
   <div>
 <div>
@@ -177,7 +180,7 @@ const DocumentListPage = () => {
         </label>
         <input
         type='text'
-        upload={uploadTitle}
+        value={uploadTitle}
         onChange={(e)=>setUploadTitle(e.target.value)}
         required
         className=''
@@ -255,6 +258,10 @@ const DocumentListPage = () => {
 )}
 
 </div>
+
+
+    </AppLayout>
+
 
 
 
