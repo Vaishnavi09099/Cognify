@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import documentService from '../../services/documentService'
 import { ClipLoader } from "react-spinners";
-import DocumentCard from './DocumentCard';
+import DocumentCard from './DocumentCard.jsx';
 import AppLayout from '../../components/layout/AppLayout';
 
 
@@ -60,6 +60,7 @@ const DocumentListPage = () => {
       setIsUploadModalOpen(false);
       setUploadFile(null);
       setUploadTitle("");
+      setLoading(true);
       fetchDocuments();
 
     }catch(error){
@@ -91,43 +92,37 @@ const DocumentListPage = () => {
   }
 
   const renderContent = ()=>{
-     if(loading){
-      return <ClipLoader color="#00d492" size={24} />;
+    //  if(loading){
+    //   return <ClipLoader color="#00d492" size={24} />;
       
-    }
-
-    if(documents.length===0){
-      return(
+    // }
+    
+    // if(documents.length===0){
+    //   return(
         
-       <div>
-        <div>
-          <div>
-            <FileText />
+    //        <div className='flex items-center mt-20 flex-col justify-center'>
+    //       <div className='rounded-xl text-gray-600/80 p-4 mb-5 shadow-md bg-gray-300/50'>
+    //         <FileText size={30} />
+    //       </div>
+    //       <p className='font-semibold text-lg '>No Documents Yet</p>
+    //       <p className='text-gray-600 font-semibold/80 mb-5'>Get started by uploading your first PDF document to begin learning.</p>
+    //         <div onClick={()=>setIsUploadModalOpen(true)}  className='flex  items-center p-3 shadow-md  bg-green-600/80  hover:-translate-y-1 transition-all ease-in-out  duration-300 cursor-pointer border-none text-white font-bold rounded-xl p-2'>
+    //         <Plus />
+    //         <p>Upload Document</p>
 
-           
-          </div>
-          <h3>No documents yet</h3>
-          <p>Get starete dby uploading your first documnet pdf to begin leraning </p>
-          <button onClick={()=>setIsUploadModalOpen(true)}>
-            <Plus />
-            Upload Documnet
-          </button>
+    //       </div>
+    //    </div>
 
-
-        </div>
-       </div>
-      )
-    }
+    //   )
+    // }
 
     return (
-      <div>
+     
+      <div className='flex'>
         {documents.map((doc)=>(
           <DocumentCard document ={doc} onDelete={handleDeletRequest}
-          
-          
-          >
-
-          </DocumentCard>
+        >
+  </DocumentCard>
         ))}
       </div>
     )
@@ -139,23 +134,27 @@ const DocumentListPage = () => {
   return (
 
     <AppLayout>
-<div>
-  <div>
-<div>
-  <h1>My documents</h1>
-  <p>Manage and organize your learning materials</p>
+      <div className='flex justify-between p-2 m-4 ml-10 '>
+        <div >
+          <p className='font-semibold text-3xl mb-2'>My Documents</p>
+          <p className='text-gray-500/70 font-semibold'>Manage and organize your learning materials</p>
 </div>
-{documents.length>0 &&(
-  <button onClick={()=>setIsUploadModalOpen(true)}>
-  <Plus />
-  Upload Documnet 
-  </button>
-  
-)}
-</div>
+
+
+   <div onClick={()=>setIsUploadModalOpen(true)} className=' p-2 mr-10 cursor-pointer'>
+          <div  className='flex items-center p-3 shadow-md  bg-green-600/80 border-none text-white font-bold rounded-xl p-2'>
+            <Plus />
+            <p>Upload Document</p>
+
+          </div>
+         </div>
+    </div>
+ 
 <div>
 {renderContent()}
 </div>
+
+
 
 {isUploadModalOpen && (
   <div className='fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm'>
@@ -257,15 +256,10 @@ const DocumentListPage = () => {
   </div>
 )}
 
-</div>
 
+ </AppLayout>
+ )
 
-    </AppLayout>
-
-
-
-
-  )
 }
 
 export default DocumentListPage
