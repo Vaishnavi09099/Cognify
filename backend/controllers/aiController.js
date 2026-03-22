@@ -236,57 +236,45 @@ export const chat = async (req, res, next) => {
         });
     }
 }
-export const explainConcept = async (req,res,next)=>{
-      try{
-        const{documentId,concept} = req.body;
-        if(!documentId || !concept){
+export const explainConcept = async (req, res, next) => {
+    try {
+        const { documentId, concept } = req.body;
+        if (!documentId || !concept) {
             return res.status(400).json({
-                success:false,
-                message:"Please provide document Id and concept"
+                success: false,
+                message: "Please provide document Id and concept"
             })
         }
 
         const document = await Document.findOne({
-            _id:documentId,
-            userId:req.user._id,
-        
+            _id: documentId,
+            userId: req.user._id,
         })
-        if(!document){
+        if (!document) {
             return res.status(404).json({
-                success:false,
-                message:"Document not found!"
+                success: false,
+                message: "Document not found!"
             })
         }
-        
-        const relevantChunks = findRelevantChunks(document.chunks,concept,3);
-         const context = relevantChunks.map(c=>c.content).join("\n\n")
 
-        const explanation = await geminiService.explainConcept(concept,context);
-
+        // ✅ chunks ki jagah extractedText use karo
+        const explanation = await geminiService.explainConcept(concept, document.extractedText);
 
         res.status(200).json({
-            success:true,
-            data:{
-               concept,
-               explanation,
-               relevantChunks:relevantChunks.map(c=>c.chunkIndex)
+            success: true,
+            data: {
+                concept,
+                explanation,
             },
-            message:"Explanation genrated successfully!"
+            message: "Explanation generated successfully!"
         })
 
-
-    }catch(err){
-         res.status(400).json({
-            success:false,
-           
-            message:"Error generating explanation!"
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            message: "Error generating explanation!"
         })
-
     }
-
-
-
-
 }
 
 export const getChatHistory = async (req,res,next)=>{

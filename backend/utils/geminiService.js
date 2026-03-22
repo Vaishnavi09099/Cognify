@@ -175,31 +175,19 @@ export const chatWithContext = async(question,chunks)=>{
     
     }
 }
-export const explainConcept = async(concept,context)=>{
+export const explainConcept = async (concept, context) => {
+    const prompt = `Explain the concept of ${concept} based on the following context. Provide a clear, educational explanation that's easy to understand. Include examples if relevant.
+    Context: ${context.substring(0, 10000)}`
 
-     const prompt = `Explain the concept of ${concept} based on the following context.Provide a clear,educational explanation that's easy to understand.Include examples if relevant.
-     Context: ${context.substring(0,10000)}`
-
-    
-
-    try{
-          const response = await ai.models.generateContent({
-            model:"gemini-2.5-flash-lite",
-            contents:prompt
+    try {
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash-lite",
+            contents: prompt
         })
+        return response.text;
 
-
-        const generatedtext = response.text;
-
-        return generatedtext;
-        
-
-    }catch(err){
-
-         console.log(("Gemini api error: ",err));
+    } catch (err) {
+        console.log("Gemini api error:", err);
         throw new Error("Failed to explain concept")
-
-    
     }
 }
-
