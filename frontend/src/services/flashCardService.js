@@ -13,7 +13,7 @@ const getAllFlashcardSets = async ()=>{
 }
 const getFlashcardsForDocument = async (documentId)=>{
     try{
-        const response = await axiosInstance.post(API_PATHS.FLASHCARDS.GET_FLASHCARDS_FOR_DOC(documentId));
+        const response = await axiosInstance.get(API_PATHS.FLASHCARDS.GET_FLASHCARDS_FOR_DOC(documentId));
        return response.data;
 
     }catch(err){
@@ -34,7 +34,7 @@ const reviewFlashcard = async(cardId,cardIndex)=>{
 
 const toggleStar= async(cardId)=>{
     try{
-        const response = await axiosInstance.get(API_PATHS.FLASHCARDS.TOGGLE_STAR(cardId));
+        const response = await axiosInstance.put(API_PATHS.FLASHCARDS.TOGGLE_STAR(cardId));
         return response.data;
 
     }catch(err){
@@ -44,7 +44,7 @@ const toggleStar= async(cardId)=>{
 }
 const deleteFlashcardSet= async(id)=>{
     try{
-        const response = await axiosInstance.get(API_PATHS.FLASHCARDS.DELETE_FLASHCARD_SET( id));
+        const response = await axiosInstance.delete(API_PATHS.FLASHCARDS.DELETE_FLASHCARD_SET( id));
         return response.data;
 
     }catch(err){

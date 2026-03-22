@@ -9,6 +9,7 @@ import Tabs from '../../components/common/Tabs'
 import { ClipLoader } from 'react-spinners'
 import ChatInterface from '../../components/chat/ChatInterface.jsx'
 import AIActions from '../../components/chat/AIActions.jsx'
+import FlashcardManager from '../Flashcards/FlashcardManager.jsx'
 
 
 const DocumentDetailPage = () => {
@@ -98,7 +99,7 @@ const DocumentDetailPage = () => {
   }
 
   const renderFlashCardsTab = ()=>{
-    return "render flashcards tab";
+    return <FlashcardManager documentId={id}/>;
   }
 
   const renderQuizzesTab = ()=>{
