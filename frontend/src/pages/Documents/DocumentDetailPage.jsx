@@ -10,6 +10,7 @@ import { ClipLoader } from 'react-spinners'
 import ChatInterface from '../../components/chat/ChatInterface.jsx'
 import AIActions from '../../components/chat/AIActions.jsx'
 import FlashcardManager from '../Flashcards/FlashcardManager.jsx'
+import QuizManager from '../Quizzes/QuizManager.jsx'
 
 
 const DocumentDetailPage = () => {
@@ -103,7 +104,7 @@ const DocumentDetailPage = () => {
   }
 
   const renderQuizzesTab = ()=>{
-    return "renderquizzestab"
+    return <QuizManager documentId={id}/>;
   };
 
   const tabs = [

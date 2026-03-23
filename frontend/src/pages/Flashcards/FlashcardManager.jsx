@@ -7,7 +7,6 @@ import { RotateCcw } from "lucide-react"
 
 const FlashcardManager = ({ documentId }) => {
 
-  // ===== STATES =====
   const [flashcardSets, setFlashcardSets] = useState([]);   
   const [selectedSet, setSelectedSet] = useState(null);     
   const [loading, setLoading] = useState(true);             
@@ -17,7 +16,7 @@ const FlashcardManager = ({ documentId }) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 const [setToDelete, setSetToDelete] = useState(null);      
 
-  // ===== FETCH FLASHCARDS =====
+
   useEffect(() => {
     if (documentId) fetchFlashcardSets();
   }, [documentId]);
