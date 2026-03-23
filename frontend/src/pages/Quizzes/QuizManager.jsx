@@ -119,7 +119,7 @@ const QuizManager = ({ documentId }) => {
                     {quizzes.map((quiz) => (
                         <div
                             key={quiz._id}
-                            className="border-2 border-gray-400/20 rounded-xl p-4 flex flex-col gap-3 bg-white shadow-sm"
+                            className="border-2 border-gray-400/20 rounded-xl w-60 p-4 flex flex-col gap-3 bg-white shadow-sm"
                         >
                            
                             <div className="flex items-center justify-between text-green-900 font-semibold">

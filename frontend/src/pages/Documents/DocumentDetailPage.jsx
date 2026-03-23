@@ -65,7 +65,7 @@ const DocumentDetailPage = () => {
         
  <a href={pdfUrl} target='_blank' rel='noopener noreferrer' className='flex items-center gap-1 text-blue-600 font-bold p-2'>
             <ExternalLink  size={16} strokeWidth={3}/>
-           <span>Open link in new</span>
+           <span>Open link in new tab</span>
           </a>
         
          
