@@ -34,21 +34,19 @@ const DocumentDetailPage = () => {
     fetchDocumentDetails();
   },[id]);
 
-  const getPdfUrl =()=>{
-    if(!document?.data?.filePath)return null;
+  const getPdfUrl = () => {
+    if (!document?.data?.filePath) return null;
     const filePath = document.data.filePath;
-    if(filePath.startsWith('http://') || filePath.startsWith('https://')){
-      return filePath;
+    if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
+      return filePath; // ✅ fl_inline already backend se aa raha hai
     }
     const baseurl = 'http://localhost:5000';
-    return `${baseurl}${filePath.startsWith('/')?'':'/'}${filePath}`;
-
-  }
+    return `${baseurl}${filePath.startsWith('/') ? '' : '/'}${filePath}`;
+  };
 
   const renderContent = ()=>{
-     if(loading){
+    if(loading){
       return <ClipLoader color="#00d492" size={24} />;
-      
     }
     if(!document || !document.data || !document.data.filePath){
       return <div>PDF not available</div>
@@ -59,37 +57,25 @@ const DocumentDetailPage = () => {
     return(
       <div className='h-screen flex flex-col'>
         <div className='border rounded-t-lg p-1 border-gray-400/60 flex justify-between'>
-        <div className='p-2'>
- <span className='text-gray-600 font-medium'>Document Viewer</span>
-        </div>
-        
- <a href={pdfUrl} target='_blank' rel='noopener noreferrer' className='flex items-center gap-1 text-blue-600 font-bold p-2'>
-            <ExternalLink  size={16} strokeWidth={3}/>
-           <span>Open link in new tab</span>
+          <div className='p-2'>
+            <span className='text-gray-600 font-medium'>Document Viewer</span>
+          </div>
+          <a href={pdfUrl} target='_blank' rel='noopener noreferrer' 
+             className='flex items-center gap-1 text-blue-600 font-bold p-2'>
+            <ExternalLink size={16} strokeWidth={3}/>
+            <span>Open link in new tab</span>
           </a>
-        
-         
-         
         </div>
         <div className='border rounded-b-lg p-1 border-gray-400/60 flex-1'>
           <iframe
-       
-src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
-          className='w-full h-full'
-          title='PDF Viewer'
-         
-          style={{
-            colorScheme:'light',
-          }}>
-
-          </iframe>
+            src={pdfUrl}  // ✅ Google Viewer hata diya, direct URL
+            className='w-full h-full'
+            title='PDF Viewer'
+            style={{ colorScheme: 'light' }}
+          />
         </div>
       </div>
-
-
     )
-    
-    
   }
 
   const renderChat = ()=>{
@@ -115,39 +101,27 @@ src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=
     {name:'Flashcards',label:'Flashcards',content:renderFlashCardsTab()},
     {name:'Quizzes',label:'Quizzes',content:renderQuizzesTab()},
   ]
- if(loading){
-      return <ClipLoader color="#00d492" size={24} />;
-      
-    }
-    if(!document || !document.data || !document.data.filePath){
-      return <div>PDF not available</div>
-    }
- 
+
+  if(loading){
+    return <ClipLoader color="#00d492" size={24} />;
+  }
+  if(!document || !document.data || !document.data.filePath){
+    return <div>PDF not available</div>
+  }
+
   return (
     <AppLayout>
-
       <div className='flex items-center gap-1 p-2 m-2 text-gray-600 font-semibold '>
         <ArrowLeft size={15} strokeWidth={2.5}/>
-       <Link to="/documents">
-       Back to Documents
-       </Link>
-
+        <Link to="/documents">
+          Back to Documents
+        </Link>
       </div>
-      <div className='p-4 '>
-         <PageHeader title={document.data.title} />
-<Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}/>
- 
-      
-
+      <div className='p-4'>
+        <PageHeader title={document.data.title} />
+        <Tabs tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab}/>
       </div>
-     
-      
-
-
-     
-
     </AppLayout>
-   
   )
 }
 
