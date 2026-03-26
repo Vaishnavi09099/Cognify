@@ -1,5 +1,5 @@
-import fs from 'fs/promises';
 import mongoose from 'mongoose';                         
+import { v2 as cloudinary } from 'cloudinary';
 import Document from '../models/Document.js';            
 import FlashCard from '../models/FlashCard.js';          
 import Quiz from '../models/Quiz.js';                    
@@ -17,24 +17,24 @@ export const uploadDocument = async (req, res) => {
 
         const { title } = req.body;
         if (!title) {
-            await fs.unlink(req.file.path);
+       
+            await cloudinary.uploader.destroy(req.file.filename, { resource_type: 'raw' });
             return res.status(400).json({
                 success: false,
                 message: "Please provide a document title"
             });
         }
 
-        const baseUrl = `http://localhost:${process.env.PORT || 5000}`; 
-        const fileUrl = `${baseUrl}/uploads/documents/${req.file.filename}`;
-
+    
         const document = await Document.create({
             userId: req.user?._id,
             title,
             fileName: req.file.originalname,
-            filePath: req.file.path,
+            filePath: req.file.path,   
             fileSize: req.file.size,
             status: 'processing'   
         });
+
 
         processPDF(document._id, req.file.path).catch(err => {
             console.log("PDF processing error: ", err);
@@ -48,9 +48,6 @@ export const uploadDocument = async (req, res) => {
 
     } catch (err) {
         console.error("Upload error:", err);  
-        if (req.file?.path) {
-            await fs.unlink(req.file.path).catch(() => {});
-        }
         return res.status(500).json({
             success: false,
             message: "PDF upload failed!",
@@ -61,11 +58,12 @@ export const uploadDocument = async (req, res) => {
 
 const processPDF = async (documentId, filePath) => {
     try {
+     
         const { text } = await extractTextFromPDF(filePath);
-         console.log("Text length:", text?.length);
+        console.log("Text length:", text?.length);
         const chunks = chunkText(text, 500, 50);
-        console.log("Chunks type:", typeof chunks);  
         console.log("Chunks length:", chunks?.length);
+
         await Document.findByIdAndUpdate(documentId, {
             extractedText: text,
             chunks: chunks,
@@ -194,9 +192,12 @@ export const deleteDocument = async (req, res) => {
             });
         }
 
-        await fs.unlink(document.filePath).catch(() => {
-            console.log("File already deleted or not found");
-        });
+     
+        if (document.filePath) {
+            const publicId = `cognify-uploads/${document.fileName}`;
+            await cloudinary.uploader.destroy(publicId, { resource_type: 'raw' })
+                .catch(err => console.log("Cloudinary delete error:", err));
+        }
 
         await document.deleteOne();
 
@@ -214,4 +215,3 @@ export const deleteDocument = async (req, res) => {
         });
     }
 };
-
