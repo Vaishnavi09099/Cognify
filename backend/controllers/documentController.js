@@ -24,21 +24,16 @@ export const uploadDocument = async (req, res) => {
             });
         }
 
-        const originalPath = req.file.path;  // ✅ text extract ke liye
-        const inlinePath = req.file.path.includes('/upload/')
-            ? req.file.path.replace('/upload/', '/upload/fl_inline/')
-            : req.file.path;  // ✅ safe replace
+        const document = await Document.create({
+            userId: req.user?._id,
+            title,
+            fileName: req.file.originalname,
+            filePath: req.file.path,  // ✅ as-is, koi transform nahi
+            fileSize: req.file.size,
+            status: 'processing'
+        });
 
-       const document = await Document.create({
-    userId: req.user?._id,
-    title,
-    fileName: req.file.originalname,
-    filePath: req.file.path,  
-    fileSize: req.file.size,
-    status: 'processing'
-});
-
-        processPDF(document._id, originalPath).catch(err => {  // ✅ original URL se text extract
+        processPDF(document._id, req.file.path).catch(err => {
             console.log("PDF processing error: ", err);
         });
 

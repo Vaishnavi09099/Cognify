@@ -34,11 +34,11 @@ const DocumentDetailPage = () => {
     fetchDocumentDetails();
   },[id]);
 
- const getPdfUrl = () => {
+const getPdfUrl = () => {
   if (!document?.data?.filePath) return null;
   const filePath = document.data.filePath;
   if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
-    return filePath;
+    return filePath; // as-is, koi replace nahi
   }
   const baseurl = 'http://localhost:5000';
   return `${baseurl}${filePath.startsWith('/') ? '' : '/'}${filePath}`;
@@ -66,14 +66,20 @@ const DocumentDetailPage = () => {
             <span>Open link in new tab</span>
           </a>
         </div>
-        <div className='border rounded-b-lg p-1 border-gray-400/60 flex-1'>
-          <iframe
-            src={pdfUrl}  // ✅ Google Viewer hata diya, direct URL
-            className='w-full h-full'
-            title='PDF Viewer'
-            style={{ colorScheme: 'light' }}
-          />
-        </div>
+      <div className='border rounded-b-lg p-1 border-gray-400/60 flex-1'>
+  <object
+    data={pdfUrl}
+    type="application/pdf"
+    className='w-full h-full'
+    style={{ minHeight: '600px' }}
+  >
+    <p>PDF display nahi ho raha. 
+      <a href={pdfUrl} target="_blank" rel="noopener noreferrer">
+        Open link in new tab
+      </a>
+    </p>
+  </object>
+</div>
       </div>
     )
   }
