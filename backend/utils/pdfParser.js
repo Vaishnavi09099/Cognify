@@ -1,17 +1,12 @@
 import { createRequire } from 'module';
-// const require = createRequire(import.meta.url);
-const pdfParseLib = require('pdf-parse');
-const pdfParse = pdfParseLib.default || pdfParseLib;
-import fetch from 'node-fetch';
-import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const pdfParse = require('pdf-parse');
+import fetch from 'node-fetch';
 
 export const extractTextFromPDF = async (input) => {
     try {
         let buffer;
 
-       
         if (Buffer.isBuffer(input)) {
             buffer = input;
         } else if (typeof input === 'string' && (input.startsWith('http://') || input.startsWith('https://'))) {
